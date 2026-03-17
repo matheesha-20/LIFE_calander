@@ -38,9 +38,9 @@
     <div id="calendar" class="grid-container"></div>
     
     <div class="mt-8 text-center">
-        <h1 id="age-text" class="text-xl font-light tracking-widest uppercase">My Life</h1>
-        <p id="stats" class="text-gray-400 text-sm mt-2 font-mono"></p>
-        <p id="left" class="text-red-800 text-xs mt-1 font-bold uppercase tracking-tighter"></p>
+        <!--<h1 id="age-text" class="text-xl font-light tracking-widest uppercase">My Life</h1>-->
+        <!-- <p id="stats" class="text-gray-400 text-sm mt-2 font-mono"></p> -->
+        <p id="left" class="text-white text-xs mt-1 font-bold uppercase tracking-tighter"></p>
     </div>
 
     <script>
@@ -49,7 +49,7 @@
         
         const birthDate = new Date(birthday);
         const today = new Date();
-        const totalYears = 80;
+        const totalYears = 100;
         const totalWeeks = totalYears * 52;
 
         const diffInMs = today - birthDate;
@@ -71,8 +71,7 @@
             calendar.appendChild(box);
         }
 
-        document.getElementById('stats').innerText = `${livedWeeks} weeks lived.`;
-        document.getElementById('left').innerText = `${weeksLeft} weeks left in your 80-year journey.`;
+        document.getElementById('left').innerText = `${weeksLeft} weeks left in your journey.`;
     </script>
 </body>
 </html>
