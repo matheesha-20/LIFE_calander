@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Life Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #000; color: #791111e8; font-family: 'Inter', sans-serif; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(52, 1fr); /* අවුරුද්දකට සති 52 */
+            gap: 2px;
+        }
+        .week-box { width: 5px; height: 5px; border-radius: 1px; }
+        .lived { background-color: #fff; } /* ජීවත් වූ සති - සුදු පාට */
+        .remaining { background-color: #333; } /* ඉතිරි සති - අළු පාට */
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-10">
+
+    <div id="calendar" class="grid-container"></div>
+    
+    <div class="mt-8 text-center">
+        <h1 id="age-text" class="text-xl font-light tracking-widest uppercase">My Life</h1>
+        <p id="stats" class="text-gray-500 text-sm mt-2"></p>
+    </div>
+
+    <script>
+        // URL එකෙන් Params ටික ගන්නවා (shortcut එකෙන් එවන උපන්දිනය)
+        const urlParams = new URLSearchParams(window.location.search);
+        const birthday = urlParams.get('birthday') || '2004-07-20'; 
+        
+        const birthDate = new Date(birthday);
+        const today = new Date();
+        const totalYears = 80;
+        const totalWeeks = totalYears * 52;
+
+        // සති ගණන ගණනය කිරීම
+        const diffInMs = today - birthDate;
+        const livedWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
+
+        const calendar = document.getElementById('calendar');
+        for (let i = 0; i < totalWeeks; i++) {
+            const box = document.createElement('div');
+            box.className = 'week-box ' + (i < livedWeeks ? 'lived' : 'remaining');
+            calendar.appendChild(box);
+        }
+
+        document.getElementById('stats').innerText = `${livedWeeks} weeks lived. Make them count.`;
+    </script>
+</body>
+</html>
