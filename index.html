@@ -8,69 +8,76 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
         body { 
-            background-color: transparent; /* විජට් එකට ගැලපෙන්න transparent කළා */
+            background-color: #000; 
             color: #fff; 
             font-family: 'Inter', sans-serif; 
             overflow: hidden;
+            padding-top: 60px;    /* Notch එකට වඩා පල්ලෙහාට ගන්න */
+            padding-bottom: 50px; /* Home Bar එකට වඩා උඩට ගන්න */
+            padding-left: 20px;
+            padding-right: 20px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* වම් පැත්තට align කළා */
-            justify-content: flex-start;
-            padding: 10px;
-            margin: 0;
-            height: auto;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+
         }
         
-        .week-box { 
-            width: 2.5px; 
-            height: 2.5px; 
-            border-radius: 50%; 
-        }
-
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(52, 1fr); /* සති 52ම පේළියට ගන්න */
-            gap: 1.5px;
-            width: fit-content;
+            grid-template-columns: repeat(52, 1fr);
+            gap: 2.5px;
+            max-width: 85vw;
         }
+
+        .week-box { width: 4.5px; height: 4.5px; border-radius: 50%; }
         
+        /* Past: Dark Glassy Red */
         .lived { 
-            background-color: rgba(129, 15, 15, 0.6); 
-            border: 0.5px solid rgba(255, 0, 0, 0.2);
+            background-color: rgba(129, 15, 15, 0.44); 
+            border: 0.5px solid rgba(255, 0, 0, 0.153);
         } 
         
+        /* Current: Glowing Red */
         .current { 
             background-color: #ff0000; 
-            box-shadow: 0 0 8px #ff0000;
-            transform: scale(1.2);
+            box-shadow: 0 0 10px #ff0000;
+            transform: scale(1.4);
             animation: pulse 2s infinite;
         }
 
-        .remaining { background-color: #222; } 
+        /* Future: Dark Gray */
+        .remaining { background-color: #161616; } 
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1.2); }
-            50% { opacity: 0.6; transform: scale(1.4); }
+            0%, 100% { opacity: 1; transform: scale(1.4); }
+            50% { opacity: 0.6; transform: scale(1.6); }
         }
 
+        /* Progress Bar එක කොට කරලා ලස්සන කරන්න */
         .mini-progress-container {
-            width: 100%;
+            width: 60px; /* ගොඩක් කොට කළා */
             height: 2px;
             background: #1a1a1a;
-            margin-top: 15px;
+            border-radius: 10px;
+            margin: 10px auto;
             overflow: hidden;
         }
     </style>
 </head>
-<body>
+<body class="p-6">
 
     <div id="calendar" class="grid-container"></div>
     
-    <div class="mt-4 w-full">
-        <p id="left-percent" class="text-[10px] text-red-600 font-bold tracking-widest"></p>
+    <div class="mt-10 text-center">
+        <p id="stats" class="text-[10px] tracking-[0.2em] text-gray-500 font-light uppercase"></p>
+        
         <div class="mini-progress-container">
             <div id="progress-bar" class="h-full bg-red-700"></div>
         </div>
+
+        <p id="left-percent" class="text-[12px] text-red-600 font-bold tracking-widest mt-1"></p>
     </div>
 
     <script>
@@ -96,7 +103,9 @@
             calendar.appendChild(box);
         }
 
-        document.getElementById('left-percent').innerText = `${leftPercentage}% LEFT`;
+        // පෙන්වන දත්ත
+        // document.getElementById('stats').innerText = `${livedWeeks} WEEKS (${livedPercentage}%)`;
+        document.getElementById('left-percent').innerText = `${leftPercentage}% WEEKS LEFT`;
         document.getElementById('progress-bar').style.width = `${livedPercentage}%`;
     </script>
 </body>
