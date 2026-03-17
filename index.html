@@ -3,44 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Life Calendar</title>
+    <title>Life Calendar Lite</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #ffffffe8; font-family: 'Inter', sans-serif; }
+        body { 
+            background-color: #000; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-h-screen: 100vh;
+        }
+        
         .grid-container {
             display: grid;
             grid-template-columns: repeat(52, 1fr);
-            gap: 2px;
-        }
-        .week-box { width: 5px; height: 5px; border-radius: 50%; }
-        
-        /* අතීත සති - Dark Glassy Red */
-        .lived { 
-            background-color: rgba(129, 15, 15, 0.4); 
-            box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.1);
-            border: 0.5px solid rgba(255, 0, 0, 0.2);
-        } 
-        
-        /* වර්තමාන සතිය - Highlighted Red */
-        .current { 
-            background-color: #ff0000; 
-            box-shadow: 0 0 10px #ff0000, 0 0 20px rgba(255, 0, 0, 0.5);
-            transform: scale(1.3);
-            z-index: 10;
+            gap: 2.5px;
+            max-width: 85vw;
         }
 
-        /* ඉතිරි සති - අළු පාට */
-        .remaining { background-color: #222; } 
+        .week-box { width: 4.5px; height: 4.5px; border-radius: 50%; }
+        
+        /* Past: Dark Glassy Red */
+        .lived { 
+            background-color: rgba(129, 15, 15, 0.44); 
+            border: 0.5px solid rgba(255, 0, 0, 0.153);
+        } 
+        
+        /* Current: Glowing Red */
+        .current { 
+            background-color: #ff0000; 
+            box-shadow: 0 0 10px #ff0000;
+            transform: scale(1.4);
+            animation: pulse 2s infinite;
+        }
+
+        /* Future: Dark Gray */
+        .remaining { background-color: #161616; } 
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1.4); }
+            50% { opacity: 0.6; transform: scale(1.6); }
+        }
+
+        /* Progress Bar එක කොට කරලා ලස්සන කරන්න */
+        .mini-progress-container {
+            width: 60px; /* ගොඩක් කොට කළා */
+            height: 2px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            margin: 10px auto;
+            overflow: hidden;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-10">
+<body class="p-6">
 
     <div id="calendar" class="grid-container"></div>
     
-    <div class="mt-8 text-center">
-        <!--<h1 id="age-text" class="text-xl font-light tracking-widest uppercase">My Life</h1>-->
-        <!-- <p id="stats" class="text-gray-400 text-sm mt-2 font-mono"></p> -->
-        <p id="left" class="text-white text-xs mt-1 font-bold uppercase tracking-tighter"></p>
+    <div class="mt-10 text-center">
+        <p id="stats" class="text-[10px] tracking-[0.2em] text-gray-500 font-light uppercase"></p>
+        
+        <div class="mini-progress-container">
+            <div id="progress-bar" class="h-full bg-red-700"></div>
+        </div>
+
+        <p id="left-percent" class="text-[12px] text-red-600 font-bold tracking-widest mt-1"></p>
     </div>
 
     <script>
@@ -49,29 +81,27 @@
         
         const birthDate = new Date(birthday);
         const today = new Date();
-        const totalYears = 100;
-        const totalWeeks = totalYears * 52;
+        const totalWeeks = 80 * 52;
 
         const diffInMs = today - birthDate;
         const livedWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
-        const weeksLeft = totalWeeks - livedWeeks;
+        
+        const livedPercentage = ((livedWeeks / totalWeeks) * 100).toFixed(1);
+        const leftPercentage = (100 - livedPercentage).toFixed(1);
 
         const calendar = document.getElementById('calendar');
         for (let i = 0; i < totalWeeks; i++) {
             const box = document.createElement('div');
-            
-            if (i < livedWeeks) {
-                box.className = 'week-box lived';
-            } else if (i === livedWeeks) {
-                box.className = 'week-box current'; // හරියටම අද සතිය
-            } else {
-                box.className = 'week-box remaining';
-            }
-            
+            if (i < livedWeeks) box.className = 'week-box lived';
+            else if (i === livedWeeks) box.className = 'week-box current';
+            else box.className = 'week-box remaining';
             calendar.appendChild(box);
         }
 
-        document.getElementById('left').innerText = `${weeksLeft} weeks left!`;
+        // පෙන්වන දත්ත
+        // document.getElementById('stats').innerText = `${livedWeeks} WEEKS (${livedPercentage}%)`;
+        document.getElementById('left-percent').innerText = `${leftPercentage}% WEEKS LEFT`;
+        document.getElementById('progress-bar').style.width = `${livedPercentage}%`;
     </script>
 </body>
 </html>
