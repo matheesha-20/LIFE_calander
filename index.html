@@ -21,18 +21,17 @@
             height: auto;
         }
         
-        .grid-container {
-            display: grid;
-            /* විජට් එකේ පළලට අනුව සති ගණන (repeat) වෙනස් කරන්න පුළුවන් */
-            grid-template-columns: repeat(26, 1fr); 
-            gap: 3px;
-            width: fit-content;
+        .week-box { 
+            width: 2.5px; 
+            height: 2.5px; 
+            border-radius: 50%; 
         }
 
-        .week-box { 
-            width: 5px; 
-            height: 5px; 
-            border-radius: 50%; 
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(52, 1fr); /* සති 52ම පේළියට ගන්න */
+            gap: 1.5px;
+            width: fit-content;
         }
         
         .lived { 
