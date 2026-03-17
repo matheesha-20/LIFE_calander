@@ -87,7 +87,7 @@
         const livedWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
         
         const livedPercentage = ((livedWeeks / totalWeeks) * 100).toFixed(1);
-        const leftPercentage = (100 - livedPercentage).toFixed(1);
+        const leftPercentage = (80 - livedPercentage).toFixed(1);
 
         const calendar = document.getElementById('calendar');
         for (let i = 0; i < totalWeeks; i++) {
